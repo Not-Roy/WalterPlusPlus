@@ -36,6 +36,8 @@ configuration_options = {
 		},
 		default = 0,
 	},
+	-- Vanilla story names must begin with `story_vanilla_`,
+	-- followed by the name of the story as listed in STRINGS.STORYTELLER.WALTER.CAMPFIRE
 	{
 		name = "",
 		label = "Walter++ Stories:",
@@ -45,4 +47,30 @@ configuration_options = {
 		},
 		default = 0,
 	},
+	-- Walter++ story names must begin with `story_wpp_`,
+	-- followed by the name of the lua file containing the story in `WalterPlusPlus/scripts/stories/wpp/` (don't include the .lua extension)
+
+
+	
+	-- {
+	-- 	name = "",
+	-- 	label = "Custom Stories:",
+	-- 	hover = "Custom stories added to this mod by someone else",
+	-- 	options = {
+	-- 		{ description = "", data = 0},
+	-- 	},
+	-- 	default = 0,
+	-- },
+	-- -- Custom story names must begin with `story_other_`,
+	-- -- followed by the name of the lua file containing the story in `WalterPlusPlus/scripts/stories/other/` (don't include the .lua extension)
+	-- {
+	-- 	name = "story_other_yourstory",
+	-- 	label = "Your Story",
+	-- 	hover = "You can put the first line of the story here, or just a description",
+	-- 	options = {
+	-- 		{ description = "Disabled", data = false },
+	-- 		{ description = "Enabled", data = true },
+	-- 	},
+	-- 	default = true, -- Change this to `false` if you want the default to be Disabled
+	-- },
 }
