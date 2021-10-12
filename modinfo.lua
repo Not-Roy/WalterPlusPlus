@@ -45,6 +45,12 @@ end
 
 configuration_options = {
 	config_label("Miscellaneous Options"),
+	config_toggle({
+		name = "woby_mukbang",
+		label = "Woby Mukbang",
+		hover = "Replaces every character's voice line for inspecting Big Woby to \"Woby mukbang\"",
+		default = true
+	}),
 
 	config_label("Vanilla Stories"),
 	-- Vanilla story names must begin with `story_vanilla_`,
@@ -69,16 +75,19 @@ configuration_options = {
 		name = "story_wpp_clones",
 		label = "Clones",
 		hover = "Clones, Clones, EVERYWHERE.",
+		default = true
 	}),
 	config_toggle({
 		name = "story_wpp_wendigo",
 		label = "The Wendigo",
 		hover = "They say the Wendigo was a lost hunter who turned to cannibalism during an exceedingly cold Winter",
+		default = true
 	}),
 	config_toggle({
 		name = "story_wpp_rickroll",
 		label = "Rickroll",
 		hover = "Never Gonna Give You Up",
+		default = true
 	}),
 
 

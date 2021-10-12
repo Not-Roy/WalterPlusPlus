@@ -47,6 +47,16 @@ end
 
 -- HIGH LEVEL FUNCTIONS
 
+-- Replaces every character's description dialogue for big Woby with "Woby mukbang"
+local function WobyMukbang()
+	local str = "Woby mukbang"
+	debug_print("[Woby Mukbang] Changing character dialogues")
+	for character, _ in pairs(GLOBAL.STRINGS.CHARACTERS) do
+		debug_print("[Woby Mukbang] Character \"%s\"", tostring(character))
+		GLOBAL.STRINGS.CHARACTERS[character].DESCRIBE.WOBYBIG = { str }
+	end
+end
+
 -- Parses this mod's config options and returns a list of story names that need to be registered
 local function GetStoriesToRegister()
 	local wpp_stories = {}
@@ -122,6 +132,10 @@ end
 -- MAIN FUNCTION
 
 local function script()
+	if GetModConfigData("woby_mukbang") == true then
+		WobyMukbang()
+	end
+	
 	local wpp_stories = GetStoriesToRegister()
 	RegisterStories(wpp_stories)
 end
