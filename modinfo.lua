@@ -65,7 +65,10 @@ configuration_options = {
 	config_label("Walter++ Stories"),
 	-- Walter++ story names must begin with `story_wpp_`,
 	-- followed by the name of the lua file containing the story in `WalterPlusPlus/scripts/stories/wpp/` (don't include the .lua extension)
-
+	config_toggle({
+		name = "story_wpp_clones",
+		label = "Clones",
+	})
 
 
 
