@@ -1,10 +1,13 @@
 -- CONSTANTS
 
 local STORY_DIRECTORY = "./stories/"
+local MODDED_STORY_DIRECTORY = "wpp/"
+local OTHER_STORY_DIRECTORY = "other/"
 
 local STORY_PREFIX = "story_"
-local MODDED_STORY_PREFIX = STORY_PREFIX.."wpp_"
-local VANILLA_STORY_PREFIX = STORY_PREFIX.."vanilla_"
+local MODDED_STORY_PREFIX = "wpp_"
+local VANILLA_STORY_PREFIX = "vanilla_"
+local OTHER_STORY_PREFIX = "other_"
 
 -- HELPER FUNCTIONS
 
@@ -48,25 +51,28 @@ end
 local function GetStoryNamesToRegister()
 	local wpp_story_names = {}
 
+	-- Loop over the config options
 	debug_print("[Config] Parsing config options")
 	for _, option in pairs(GLOBAL.KnownModIndex:GetModInfo(modname).configuration_options) do
+		-- If this option refers to a story
 		if has_prefix(option.name, STORY_PREFIX) then
-			local option_value = GetModConfigData(option.name)
-			debug_print("[Config] Config option: \"%s\" (%s)", option.name, tostring(option_value))
+			local option_name = remove_prefix(option.name, STORY_PREFIX)
+			local option_value = GetModConfigData(option_name)
+			debug_print("[Config] Config option: \"%s\" (%s)", option_name, tostring(option_value))
 
 			-- If this is a modded story and it is enabled
-			if has_prefix(option.name, MODDED_STORY_PREFIX) and option_value == true then
+			if has_prefix(option_name, MODDED_STORY_PREFIX) and option_value == true then
 				-- Add the story name to `wpp_story_names`
-				local modded_name = remove_prefix(option.name, MODDED_STORY_PREFIX):upper()
-				debug_print("[Config] Adding modded story: \"%s\" (%s)", option.name, modded_name)
+				local modded_name = remove_prefix(option_name, MODDED_STORY_PREFIX):upper()
+				debug_print("[Config] Adding modded story: \"%s\" (%s)", option_name, modded_name)
 				table.insert(wpp_story_names, modded_name)
 			end
 
 			-- If this is a vanilla story and it is disabled
-			if has_prefix(option.name, VANILLA_STORY_PREFIX) and option_value == false then
-				-- Remove the story from the global story index
-				local vanilla_name = remove_prefix(option.name, VANILLA_STORY_PREFIX):upper()
-				debug_print("[Config] Removing vanilla story: \"%s\" (%s)", option.name, vanilla_name)
+			if has_prefix(option_name, VANILLA_STORY_PREFIX) and option_value == false then
+				-- Unregister the story
+				local vanilla_name = remove_prefix(option_name, VANILLA_STORY_PREFIX):upper()
+				debug_print("[Config] Removing vanilla story: \"%s\" (%s)", option_name, vanilla_name)
 				GLOBAL.STRINGS.STORYTELLER.WALTER.CAMPFIRE[vanilla_name] = nil
 			end
 		end
