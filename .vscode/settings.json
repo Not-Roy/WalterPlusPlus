@@ -1,0 +1,28 @@
+{
+	"Lua.diagnostics.globals": [
+		// modinfo.lua
+		"name",
+		"author",
+		"description",
+		"version",
+		"dst_compatible",
+		"dont_starve_compatible",
+		"client_only_mod",
+		"all_clients_require_mod",
+		"forge_compatible",
+		"gorge_compatible",
+		"icon_atlas",
+		"icon",
+		"forumthread",
+		"api_version_dst",
+		"priority",
+		"mod_dependencies",
+		"server_filter_tags",
+		"configuration_options",
+		
+		// modmain.lua
+		"GLOBAL",
+		"modname",
+		"GetModConfigData",
+	]
+}
