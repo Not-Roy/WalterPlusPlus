@@ -24,6 +24,24 @@ local function remove_prefix(str, prefix)
 	return tostring(str:sub(string.len(prefix) + 1))
 end
 
+-- Splits `str` at every instance of `delimiter`, returns the resulting array
+local function split(str, delimiter)
+	local result = {}
+
+	for match in (str..delimiter):gmatch("(.-)"..delimiter) do
+		table.insert(result, match)
+	end
+
+	return result
+end
+
+-- Returns the duration that `line` should be spoken for, in seconds.
+-- Used when registering a story for Walter that is only text
+local function get_line_duration(line)
+	return math.floor(0.5 + 2 * (0.04423210518 * (#line) + 1.202100937)) / 2
+end
+
+
 -- HIGH LEVEL FUNCTIONS
 
 -- Parses this mod's config options and returns a list of story names that need to be registered
@@ -57,10 +75,36 @@ local function GetStoryNamesToRegister()
 	return wpp_story_names
 end
 
+-- Finds the lua file associated with each story in `stories` and registers it
+local function RegisterStories(stories)
+	debug_print("[Stories] Adding modded stories to registry")
+	for _, story_name in ipairs(stories) do
+		-- Load the story and split it into lines
+		debug_print("[Stories] Loading story \"%s\" (%s)", story_name, STORY_DIRECTORY..story_name:lower())
+		local story_text = GLOBAL.require(STORY_DIRECTORY..string.lower(story_name)) -- :gsub("([.,:;?!]) ", "%1\n")
+		local story_lines = split(story_text, "\n")
+
+		-- Load the story's line durations and text into `story`
+		debug_print("[Stories] Parsing story")
+		local story = {}
+		for index, line in ipairs(story_lines) do
+			story[index] = {
+				duration = get_line_duration(line),
+				line = line,
+			}
+		end
+
+		-- Register the story
+		debug_print("[Stories] Registering story")
+		GLOBAL.STRINGS.STORYTELLER.WALTER.CAMPFIRE[story_name] = { lines = story }
+	end
+end
+
 -- MAIN FUNCTION
 
 local function script()
 	local wpp_story_names = GetStoryNamesToRegister()
+	RegisterStories(wpp_story_names)
 end
 
 debug_print("[Init] Running script")
