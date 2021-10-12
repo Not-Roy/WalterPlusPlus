@@ -68,7 +68,11 @@ configuration_options = {
 	config_toggle({
 		name = "story_wpp_clones",
 		label = "Clones",
-	})
+	}),
+	config_toggle({
+		name = "story_wpp_wendigo",
+		label = "The Wendigo",
+	}),
 
 
 
