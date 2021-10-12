@@ -17,41 +17,59 @@ api_version_dst = 10
 priority = 0
 mod_dependencies = {}
 server_filter_tags = {}
-configuration_options = {
-	{
+
+local function config_label(label)
+	return {
 		name = "",
-		label = "Miscellaneous Options:",
+		label = label,
 		hover = "",
 		options = {
 			{ description = "", data = 0},
 		},
 		default = 0,
-	},
-	{
-		name = "",
-		label = "Vanilla Stories:",
-		hover = "Stories already present in the base game",
+	}
+end
+
+local function config_toggle(options)
+	return {
+		name = options.name,
+		label = options.label,
+		hover = options.hover ~= nil and options.hover or "",
 		options = {
-			{ description = "", data = 0},
+			{ description = "Disabled", data = false },
+			{ description = "Enabled", data = true },
 		},
-		default = 0,
-	},
+		default = options.default ~= nil and options.default or true,
+	}
+end
+
+configuration_options = {
+	config_label("Miscellaneous Options"),
+
+	config_label("Vanilla Stories"),
 	-- Vanilla story names must begin with `story_vanilla_`,
 	-- followed by the name of the story as listed in STRINGS.STORYTELLER.WALTER.CAMPFIRE
-	{
-		name = "",
-		label = "Walter++ Stories:",
-		hover = "Stories added by this mod",
-		options = {
-			{ description = "", data = 0},
-		},
-		default = 0,
-	},
+	config_toggle({
+		name = "story_vanilla_bog_monster",
+		label = "Bog Monster",
+		hover = "Ever heard of the bog monster?",
+		default = true
+	}),
+	config_toggle({
+		name = "story_vanilla_clocks",
+		label = "Clocks",
+		hover = "Alright, so there's this guy...",
+		default = true
+	}),
+	
+	config_label("Walter++ Stories"),
 	-- Walter++ story names must begin with `story_wpp_`,
 	-- followed by the name of the lua file containing the story in `WalterPlusPlus/scripts/stories/wpp/` (don't include the .lua extension)
 
 
-	
+
+
+
 	-- {
 	-- 	name = "",
 	-- 	label = "Custom Stories:",
