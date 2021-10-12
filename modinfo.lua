@@ -18,11 +18,11 @@ priority = 0
 mod_dependencies = {}
 server_filter_tags = {}
 
-local function config_label(label)
+local function config_label(label, hover)
 	return {
 		name = "",
 		label = label,
-		hover = "",
+		hover = hover ~= nil and hover or "",
 		options = {
 			{ description = "", data = 0},
 		},
@@ -44,7 +44,9 @@ local function config_toggle(options)
 end
 
 configuration_options = {
-	config_label("Miscellaneous Options"),
+	config_label(
+		"Miscellaneous Options"
+	),
 	config_toggle({
 		name = "woby_mukbang",
 		label = "Woby Mukbang",
@@ -52,7 +54,10 @@ configuration_options = {
 		default = true
 	}),
 
-	config_label("Vanilla Stories"),
+	config_label(
+		"Vanilla Stories",
+		"Stories already present in the base game"
+	),
 	-- Vanilla story names must begin with `story_vanilla_`,
 	-- followed by the name of the story as listed in STRINGS.STORYTELLER.WALTER.CAMPFIRE
 	config_toggle({
@@ -68,7 +73,10 @@ configuration_options = {
 		default = true
 	}),
 	
-	config_label("Walter++ Stories"),
+	config_label(
+		"Walter++ Stories",
+		"Stories added by this mod"
+	),
 	-- Walter++ story names must begin with `story_wpp_`,
 	-- followed by the name of the lua file containing the story in `WalterPlusPlus/scripts/stories/wpp/` (don't include the .lua extension)
 	config_toggle({
@@ -92,26 +100,16 @@ configuration_options = {
 
 
 
-
-	-- {
-	-- 	name = "",
-	-- 	label = "Custom Stories:",
-	-- 	hover = "Custom stories added to this mod by someone else",
-	-- 	options = {
-	-- 		{ description = "", data = 0},
-	-- 	},
-	-- 	default = 0,
-	-- },
+	-- config_label(
+	-- 	"Custom Stories",
+	-- 	"Custom stories added to this mod by someone else"
+	-- ),
 	-- -- Custom story names must begin with `story_other_`,
 	-- -- followed by the name of the lua file containing the story in `WalterPlusPlus/scripts/stories/other/` (don't include the .lua extension)
-	-- {
+	-- config_toggle({
 	-- 	name = "story_other_yourstory",
 	-- 	label = "Your Story",
-	-- 	hover = "You can put the first line of the story here, or just a description",
-	-- 	options = {
-	-- 		{ description = "Disabled", data = false },
-	-- 		{ description = "Enabled", data = true },
-	-- 	},
-	-- 	default = true, -- Change this to `false` if you want the default to be Disabled
-	-- },
+	-- 	hover = "You can put a description of the story here",
+	-- 	default = true, -- Change this to `false` if you want the story to be Disabled by default
+	-- }),
 }
