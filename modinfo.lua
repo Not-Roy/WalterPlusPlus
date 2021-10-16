@@ -4,15 +4,19 @@ description = [[
 This mod makes several improvements to Walter.
 ]]
 version = "0.1.0"
+forumthread = ""
+
 dst_compatible = true
 dont_starve_compatible = false
-client_only_mod = false
-all_clients_require_mod = true
 forge_compatible = false
 gorge_compatible = false
+
+client_only_mod = false
+all_clients_require_mod = true
+
 icon_atlas = nil
 icon = nil
-forumthread = ""
+
 api_version_dst = 10
 priority = 0
 mod_dependencies = {}
