@@ -7,16 +7,19 @@ I was a little unnerved,
 because I heard some dogs barking in the distance.
 When I suddenly felt a deep chill.
 A horrible, unnatural chill.
-I kept moving on.
+I kept walking.
 I just wanted to be back at camp.
 When out of nowhere,
 Woby stopped dead in her tracks.
 She was staring at something.
-She didn't move, didn't make a sound.
 Then I saw it.
 A creature in the distance.
 Feasting on something.
-This... thing... looked like it hadn't eaten in years
-It's skin looked gray and... dead
-Only then did I realize,
-That's a Wendigo!]]
+This... thing...
+It looked like a skeleton wearing a suit of skin,
+but it had the horns of a moose.
+It's skin looked gray and... dead.
+Suddenly it stopped eating.
+It turned and looked me in the eye,
+and mumbled something I couldn't understand.
+Then it howled and stumbled out of sight.]]
