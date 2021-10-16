@@ -1,28 +1,137 @@
 {
 	"Lua.diagnostics.globals": [
-		// modinfo.lua
-		"name",
-		"author",
-		"description",
+		// intended for modinfo
+		// added by modindex.lua:528-590
 		"version",
-		"dst_compatible",
+		"version_compatible",
+		"icon_atlas",
+		"iconpath",
+		"icon",
+		"game_modes",
+		"mod_dependencies",
+		"client_only_mod",
+		// added by modindex.lua:614
+		"api_version_dst",
+		// added by modindex.lua:638
+		"name",
+		"description",
+		"author",
+		"api_version",
 		"dont_starve_compatible",
+		"reign_of_giants_compatible",
+		"configuration_options",
+		"dst_compatible",
+		// added by modindex.lua:678
 		"client_only_mod",
 		"all_clients_require_mod",
+		// added by mods.lua:916
+		"forumthread",
+		// added by mods.lua:504-505
+		"priority",
+		// added by modindex.lua:1286-1287 and mods.lua:201-202
+		"server_filter_tags",
+		// added by mods.lua:520-522
+		"forcemanifest",
+		// added by modindex:921
+		"standalone",
+		// not added by anthing in DST
 		"forge_compatible",
 		"gorge_compatible",
-		"icon_atlas",
-		"icon",
-		"forumthread",
-		"api_version_dst",
-		"priority",
-		"mod_dependencies",
-		"server_filter_tags",
-		"configuration_options",
 		
-		// modmain.lua
+		// intended for modmain and worldgen
+		// added by modutil.lua:178-356
+		"ReloadFrontEndAssets",
+		"AddCustomizeGroup",
+		"RemoveCustomizeGroup",
+		"AddCustomizeItem",
+		"RemoveCustomizeItem",
+		"GetCustomizeDescription",
+		"AddLevelPreInit",
+		"AddTaskSetPreInit",
+		"AddTaskSetPreInitAny",
+		"AddTaskPreInit",
+		"AddRoomPreInit",
+		"AddLocation",
+		"AddLevel",
+		"AddTaskSet",
+		"AddTask",
+		"AddRoom",
+		"GetModConfigData",
+		"AddGamePostInit",
+		"AddSimPostInit",
+		"AddGlobalClassPostConstruct",
+		"AddClassPostConstruct",
+
+		// intended for modmain
+		// added by modutil.lua:359-701
+		"AddAction",
+		"AddComponentAction",
+		"AddPopup",
+		"AddMinimapAtlas",
+		"AddStategraphActionHandler",
+		"AddStategraphState",
+		"AddStategraphEvent",
+		"AddModShadersInit",
+		"AddModShadersSortAndEnable",
+		"AddStategraphPostInit",
+		"AddComponentPostInit",
+		"AddPrefabPostInitAny",
+		"AddPlayerPostInit",
+		"AddPrefabPostInit",
+		"AddBrainPostInit",
+		"AddIngredientValues",
+		"AddCookerRecipe",
+		"AddModCharacter",
+		"RemoveDefaultCharacter",
+		"AddRecipe",
+		"Recipe",
+		"AddRecipeTab",
+		"Prefab",				// variable
+		"Asset",				// variable
+		"Ingredient",			// variable
+		"LoadPOFile",
+		"RemapSoundEvent",
+		"AddReplicableComponent",
+		"AddModRPCHandler",
+		"AddClientModRPCHandler",
+		"AddShardModRPCHandler",
+		"GetModRPCHandler",
+		"GetClientModRPCHandler",
+		"GetShardModRPCHandler",
+		"SendModRPCToServer",
+		"SendModRPCToClient",
+		"SendModRPCToShard",
+		"MOD_RPC",				// variable, legacy
+		"CLIENT_MOD_RPC",		// variable, legacy
+		"SHARD_MOD_RPC",		// variable, legacy
+		"GetModRPC",
+		"GetClientModRPC",
+		"GetShardModRPC",
+		"SetModHUDFocus",
+		"AddUserCommand",
+		"AddVoteCommand",
+		"ExcludeClothingSymbolForModCharacter",
+		"RegisterInventoryItemAtlas",
+		
+		// intended for anywhere in the mod
+		// added by mods.lua:291
+		"TUNING",
+		// added by mods.lua:301-303
 		"GLOBAL",
 		"modname",
-		"GetModConfigData",
+		"MODROOT",
+		// added by mods.lua:310
+		"env",
+
+		// intended for anywhere besides worldgen
+		"CHARACTERLIST",
+
+		// intended for worldgen
+		// added by mods.lua:294
+		"LEVELCATEGORY",
+		"GROUND",
+		"LOCKS",
+		"KEYS",
+		"LEVELTYPE",
 	]
 }
