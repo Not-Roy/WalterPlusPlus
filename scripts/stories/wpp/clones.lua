@@ -21,5 +21,5 @@ MY campfire stories!
 And I think... I think...
 Maybe a handful of them are plotting against me
 to use a ray gun,
-and eviscerate the REAL me
+and eviscerate the REAL me,
 and take my place.]]
