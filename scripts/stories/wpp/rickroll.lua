@@ -1,4 +1,5 @@
 -- Never Gonna Give You Up by Rick Astley
+-- (https://youtu.be/dQw4w9WgXcQ)
 return [[
 Who's ready for a song?
 Ahem.
