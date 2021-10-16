@@ -22,11 +22,11 @@ priority = 0
 mod_dependencies = {}
 server_filter_tags = {}
 
-local function config_label(label, hover)
+local function config_label(options)
 	return {
 		name = "",
-		label = label,
-		hover = hover ~= nil and hover or "",
+		label = options.label,
+		hover = options.hover ~= nil and options.hover or "",
 		options = {
 			{ description = "", data = 0},
 		},
@@ -48,9 +48,9 @@ local function config_toggle(options)
 end
 
 configuration_options = {
-	config_label(
-		"Miscellaneous Options"
-	),
+	config_label({
+		label = "Miscellaneous Options"
+	}),
 	config_toggle({
 		name = "woby_mukbang",
 		label = "Woby Mukbang",
@@ -58,10 +58,10 @@ configuration_options = {
 		default = true
 	}),
 
-	config_label(
-		"Vanilla Stories",
-		"Stories already present in the base game"
-	),
+	config_label({
+		label = "Vanilla Stories",
+		hover = "Stories already present in the base game"
+	}),
 	-- Vanilla story names must begin with `story_vanilla_`,
 	-- followed by the name of the story as listed in STRINGS.STORYTELLER.WALTER.CAMPFIRE
 	config_toggle({
@@ -77,10 +77,10 @@ configuration_options = {
 		default = true
 	}),
 	
-	config_label(
-		"Walter++ Stories",
-		"Stories added by this mod"
-	),
+	config_label({
+		label = "Walter++ Stories",
+		hover = "Stories added by this mod"
+	}),
 	-- Walter++ story names must begin with `story_wpp_`,
 	-- followed by the name of the lua file containing the story in `WalterPlusPlus/scripts/stories/wpp/` (don't include the .lua extension)
 	config_toggle({
@@ -104,10 +104,10 @@ configuration_options = {
 
 
 
-	-- config_label(
-	-- 	"Custom Stories",
-	-- 	"Custom stories added to this mod by someone else"
-	-- ),
+	-- config_label({
+	-- 	label = "Custom Stories",
+	-- 	hover = "Custom stories added to this mod by someone else"
+	-- }),
 	-- -- Custom story names must begin with `story_other_`,
 	-- -- followed by the name of the lua file containing the story in `WalterPlusPlus/scripts/stories/other/` (don't include the .lua extension)
 	-- config_toggle({
