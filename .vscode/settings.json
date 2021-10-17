@@ -114,6 +114,17 @@
 		"RegisterInventoryItemAtlas",
 		
 		// intended for anywhere in the mod
+		// added by mods.lua:279-288
+		"pairs",
+		"ipairs",
+		"print",
+		"math",
+		"table",
+		"type",
+		"string",
+		"tostring",
+		"require",
+		"Class",
 		// added by mods.lua:291
 		"TUNING",
 		// added by mods.lua:301-303
