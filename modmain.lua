@@ -1,5 +1,4 @@
 -- CONSTANTS
-
 local STORY_DIRECTORY = "./stories/"
 local MODDED_STORY_DIRECTORY = "wpp/"
 local OTHER_STORY_DIRECTORY = "other/"
@@ -9,8 +8,9 @@ local MODDED_STORY_PREFIX = "wpp_"
 local VANILLA_STORY_PREFIX = "vanilla_"
 local OTHER_STORY_PREFIX = "other_"
 
--- HELPER FUNCTIONS
 
+
+-- HELPER FUNCTIONS
 -- Effectively printf() but with a "[Walter++]" prefix on the output
 local function debug_print(message, ...)
 	print(string.format("[Walter++] "..tostring(message), ...))
@@ -45,8 +45,8 @@ local function get_line_duration(line)
 end
 
 
--- HIGH LEVEL FUNCTIONS
 
+-- HIGH LEVEL FUNCTIONS
 -- Replaces every character's description dialogue for big Woby with "Woby mukbang"
 local function WobyMukbang()
 	local str = "Woby mukbang"
@@ -129,21 +129,7 @@ local function RegisterStories(stories)
 	end
 end
 
--- MAIN FUNCTION
-
-local function script()
-	if GetModConfigData("woby_mukbang") == true then
-		WobyMukbang()
-	end
-	
-	local wpp_stories = GetStoriesToRegister()
-	RegisterStories(wpp_stories)
-end
-
-debug_print("[Init] Running script")
-script()
-
-AddComponentPostInit("storyteller", function (storyteller)
+local function StoryTellerPostInit(storyteller)
 	function storyteller:SetStoryToTellFn(fn)
 		local function StoryToTellFn(inst, story_prop)
 			if not GLOBAL.TheWorld.state.isnight then
@@ -228,9 +214,9 @@ AddComponentPostInit("storyteller", function (storyteller)
 			self:OnDone()
 		end
 	end
-end)
+end
 
-AddComponentPostInit("talker", function (talker)
+local function TalkerPostInit(talker)
 	if talker.inst:HasTag("player") then
 		print("[Walter++] [Talker] HasTag player")
 		print("[Walter++] [Talker] Prefab: "..tostring(talker.inst.prefab))
@@ -353,4 +339,22 @@ AddComponentPostInit("talker", function (talker)
 			end
 		end
 	end
-end)
+end
+
+
+
+-- MAIN FUNCTION
+local function script()
+	if GetModConfigData("woby_mukbang") == true then
+		WobyMukbang()
+	end
+	
+	AddComponentPostInit("storyteller", StoryTellerPostInit)
+	AddComponentPostInit("talker", TalkerPostInit)
+
+	local wpp_stories = GetStoriesToRegister()
+	RegisterStories(wpp_stories)
+end
+
+debug_print("[Init] Running script")
+script()
