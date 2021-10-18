@@ -217,126 +217,126 @@ local function StoryTellerPostInit(storyteller)
 end
 
 local function TalkerPostInit(talker)
-	if talker.inst:HasTag("player") then
-		print("[Walter++] [Talker] HasTag player")
-		print("[Walter++] [Talker] Prefab: "..tostring(talker.inst.prefab))
-
-		local FollowText = require "widgets/followtext"
-
-		local function sayfn(self, script, nobroadcast, colour)
-			self.currentline = nil
-
-			local player = GLOBAL.ThePlayer
-			if (not self.disablefollowtext) and self.widget == nil and player ~= nil and player.HUD ~= nil then
-				self.widget = player.HUD:AddChild(FollowText(self.font or GLOBAL.TALKINGFONT, self.fontsize or 35))
-				self.widget:SetHUD(player.HUD.inst)
-			end
+	if talker.inst:HasTag("player") then return end
+	
+	print("[Walter++] [Talker] HasTag player")
+	print("[Walter++] [Talker] Prefab: "..tostring(talker.inst.prefab))
+	
+	local FollowText = require "widgets/followtext"
+	
+	local function sayfn(self, script, nobroadcast, colour)
+		self.currentline = nil
 		
-			if self.widget ~= nil then
-				self.widget.symbol = self.symbol
-				self.widget:SetOffset(self.offset_fn ~= nil and self.offset_fn(self.inst) or self.offset or GLOBAL.DEFAULT_OFFSET)
-				self.widget:SetTarget(self.inst)
-				if colour ~= nil then
-					self.widget.text:SetColour(GLOBAL.unpack(colour))
-				elseif self.colour ~= nil then
-					self.widget.text:SetColour(self.colour.x, self.colour.y, self.colour.z, 1)
+		local player = GLOBAL.ThePlayer
+		if (not self.disablefollowtext) and self.widget == nil and player ~= nil and player.HUD ~= nil then
+			self.widget = player.HUD:AddChild(FollowText(self.font or GLOBAL.TALKINGFONT, self.fontsize or 35))
+			self.widget:SetHUD(player.HUD.inst)
+		end
+		
+		if self.widget ~= nil then
+			self.widget.symbol = self.symbol
+			self.widget:SetOffset(self.offset_fn ~= nil and self.offset_fn(self.inst) or self.offset or GLOBAL.DEFAULT_OFFSET)
+			self.widget:SetTarget(self.inst)
+			if colour ~= nil then
+				self.widget.text:SetColour(GLOBAL.unpack(colour))
+			elseif self.colour ~= nil then
+				self.widget.text:SetColour(self.colour.x, self.colour.y, self.colour.z, 1)
+			end
+		end
+		
+		for i, line in ipairs(script) do
+			print("[Walter++] [Talker] Saying line "..tostring(i)..": "..tostring(line.message))
+			self.currentline = i
+			
+			local duration = math.min(line.duration or self.lineduration or TUNING.DEFAULT_TALKER_DURATION, TUNING.MAX_TALKER_DURATION)
+			if line.message ~= nil then
+				local display_message = GLOBAL.GetSpecialCharacterPostProcess(
+					self.inst.prefab,
+					self.mod_str_fn ~= nil and self.mod_str_fn(line.message) or line.message
+				)
+				
+				if not nobroadcast then
+					GLOBAL.TheNet:Talker(line.message, self.inst.entity, duration ~= TUNING.DEFAULT_TALKER_DURATION and duration or nil)
 				end
-			end
-		
-			for i, line in ipairs(script) do
-				print("[Walter++] [Talker] Saying line "..tostring(i)..": "..tostring(line.message))
-				self.currentline = i
-
-				local duration = math.min(line.duration or self.lineduration or TUNING.DEFAULT_TALKER_DURATION, TUNING.MAX_TALKER_DURATION)
-				if line.message ~= nil then
-					local display_message = GLOBAL.GetSpecialCharacterPostProcess(
-						self.inst.prefab,
-						self.mod_str_fn ~= nil and self.mod_str_fn(line.message) or line.message
-					)
-		
-					if not nobroadcast then
-						GLOBAL.TheNet:Talker(line.message, self.inst.entity, duration ~= TUNING.DEFAULT_TALKER_DURATION and duration or nil)
-					end
-		
-					if self.widget ~= nil then
-						self.widget.text:SetString(display_message)
-					end
-		
-					if self.ontalkfn ~= nil then
-						self.ontalkfn(self.inst, { noanim = line.noanim, message=display_message })
-					end
-		
-					self.inst:PushEvent("ontalk", { noanim = line.noanim })
-				elseif self.widget ~= nil then
-					self.widget:Hide()
+				
+				if self.widget ~= nil then
+					self.widget.text:SetString(display_message)
 				end
-				GLOBAL.Sleep(duration)
-				if not self.inst:IsValid() or (self.widget ~= nil and not self.widget.inst:IsValid()) then
-					return
+				
+				if self.ontalkfn ~= nil then
+					self.ontalkfn(self.inst, { noanim = line.noanim, message=display_message })
 				end
+				
+				self.inst:PushEvent("ontalk", { noanim = line.noanim })
+			elseif self.widget ~= nil then
+				self.widget:Hide()
 			end
-
-			self.currentline = nil
-		
-			if self.widget ~= nil then
-				self.widget:Kill()
-				self.widget = nil
+			GLOBAL.Sleep(duration)
+			if not self.inst:IsValid() or (self.widget ~= nil and not self.widget.inst:IsValid()) then
+				return
 			end
+		end
 		
+		self.currentline = nil
+		
+		if self.widget ~= nil then
+			self.widget:Kill()
+			self.widget = nil
+		end
+		
+		if self.donetalkingfn ~= nil then
+			self.donetalkingfn(self.inst)
+		end
+		
+		self.inst:PushEvent("donetalking")
+		self.task = nil
+	end
+	
+	local function CancelSay(self)
+		if self.widget ~= nil then
+			self.widget:Kill()
+			self.widget = nil
+		end
+		
+		if self.task ~= nil then
+			GLOBAL.scheduler:KillTask(self.task)
+			self.task = nil
+			
 			if self.donetalkingfn ~= nil then
 				self.donetalkingfn(self.inst)
 			end
-		
+			
 			self.inst:PushEvent("donetalking")
-			self.task = nil
 		end
-
-		local function CancelSay(self)
-			if self.widget ~= nil then
-				self.widget:Kill()
-				self.widget = nil
+	end
+	
+	function talker:Say(script, time, noanim, force, nobroadcast, colour)
+		print("[Walter++] [Talker] Say")
+		if GLOBAL.TheWorld.speechdisabled then return nil end
+		if GLOBAL.TheWorld.ismastersim then
+			if not force
+			and (self.ignoring ~= nil or
+			(self.inst.components.health ~= nil and self.inst.components.health:IsDead() and self.inst.components.revivablecorpse == nil) or
+			(self.inst.components.sleeper ~= nil and self.inst.components.sleeper:IsAsleep())) then
+				return
+			elseif self.ontalk ~= nil then
+				self.ontalk(self.inst, script)
 			end
-		
-			if self.task ~= nil then
-				GLOBAL.scheduler:KillTask(self.task)
-				self.task = nil
-		
-				if self.donetalkingfn ~= nil then
-					self.donetalkingfn(self.inst)
+		elseif not force then
+			if self.inst:HasTag("ignoretalking") then
+				return
+			elseif self.inst.components.revivablecorpse == nil then
+				local health = self.inst.replica.health
+				if health ~= nil and health:IsDead() then
+					return
 				end
-		
-				self.inst:PushEvent("donetalking")
 			end
 		end
-
-		function talker:Say(script, time, noanim, force, nobroadcast, colour)
-			print("[Walter++] [Talker] Say")
-			if GLOBAL.TheWorld.speechdisabled then return nil end
-			if GLOBAL.TheWorld.ismastersim then
-				if not force
-					and (self.ignoring ~= nil or
-						(self.inst.components.health ~= nil and self.inst.components.health:IsDead() and self.inst.components.revivablecorpse == nil) or
-						(self.inst.components.sleeper ~= nil and self.inst.components.sleeper:IsAsleep())) then
-					return
-				elseif self.ontalk ~= nil then
-					self.ontalk(self.inst, script)
-				end
-			elseif not force then
-				if self.inst:HasTag("ignoretalking") then
-					return
-				elseif self.inst.components.revivablecorpse == nil then
-					local health = self.inst.replica.health
-					if health ~= nil and health:IsDead() then
-						return
-					end
-				end
-			end
 		
-			CancelSay(self)
-			local lines = type(script) == "string" and { GLOBAL.Line(script, noanim, time) } or script
-			if lines ~= nil then
-				self.task = self.inst:StartThread(function() sayfn(self, lines, nobroadcast, colour) end)
-			end
+		CancelSay(self)
+		local lines = type(script) == "string" and { GLOBAL.Line(script, noanim, time) } or script
+		if lines ~= nil then
+			self.task = self.inst:StartThread(function() sayfn(self, lines, nobroadcast, colour) end)
 		end
 	end
 end
