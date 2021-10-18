@@ -3,7 +3,7 @@ author = "Sam"
 description = [[
 This mod adds several more stories for walter to tell, and adds the abliity to continue a story from where you left off.
 ]]
-version = "0.1.0"
+version = "1.0.0"
 forumthread = ""
 
 dst_compatible = true
