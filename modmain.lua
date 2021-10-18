@@ -13,7 +13,7 @@ local OTHER_STORY_PREFIX = "other_"
 -- HELPER FUNCTIONS
 -- Effectively printf() but with a "[Walter++]" prefix on the output
 local function debug_print(message, ...)
-	print(string.format("[Walter++] "..tostring(message), ...))
+	-- print(string.format("[Walter++] "..tostring(message), ...))
 end
 
 -- Checks if `str` starts with `prefix`
