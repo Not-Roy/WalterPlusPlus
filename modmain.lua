@@ -66,25 +66,26 @@ local function GetStoriesToRegister()
 	for _, option in pairs(GLOBAL.KnownModIndex:GetModInfo(modname).configuration_options) do
 		-- If this option refers to a story
 		if has_prefix(option.name, STORY_PREFIX) then
-			local option_name = remove_prefix(option.name, STORY_PREFIX)
-			local option_value = GetModConfigData(option_name)
-			debug_print("[Config] Config option: \"%s\" (%s)", option_name, tostring(option_value))
+			local option_value = GetModConfigData(option.name)
+			debug_print("[Config] Config option: \"%s\" (%s)", option.name, tostring(option_value))
 
+			local story_name = remove_prefix(option.name, STORY_PREFIX)
 			-- If this is a modded story and it is enabled
-			if has_prefix(option_name, MODDED_STORY_PREFIX) and option_value == true then
+			if has_prefix(story_name, MODDED_STORY_PREFIX) and option_value == true then
 				-- Add the story name and directory to `wpp_stories`
-				local modded_name = remove_prefix(option_name, MODDED_STORY_PREFIX):upper()
-				debug_print("[Config] Adding modded story: \"%s\" (%s)", option_name, modded_name)
+				local modded_name = remove_prefix(story_name, MODDED_STORY_PREFIX):upper()
+				debug_print("[Config] Adding modded story: \"%s\" (%s)", story_name, modded_name)
 				table.insert(wpp_stories, {
 					name = modded_name,
 					dir = MODDED_STORY_DIRECTORY
 				})
 			end
 
-			if has_prefix(option_name, OTHER_STORY_PREFIX) and option_value == true then
+			-- If this is a custom modded story and it is enabled
+			if has_prefix(story_name, OTHER_STORY_PREFIX) and option_value == true then
 				-- Add the story name and directory to `wpp_stories`
-				local modded_name = remove_prefix(option_name, OTHER_STORY_PREFIX):upper()
-				debug_print("[Config] Adding modded story: \"%s\" (%s)", option_name, modded_name)
+				local modded_name = remove_prefix(story_name, OTHER_STORY_PREFIX):upper()
+				debug_print("[Config] Adding modded story: \"%s\" (%s)", story_name, modded_name)
 				table.insert(wpp_stories, {
 					name = modded_name,
 					dir = OTHER_STORY_DIRECTORY
@@ -92,10 +93,10 @@ local function GetStoriesToRegister()
 			end
 
 			-- If this is a vanilla story and it is disabled
-			if has_prefix(option_name, VANILLA_STORY_PREFIX) and option_value == false then
+			if has_prefix(story_name, VANILLA_STORY_PREFIX) and option_value == false then
 				-- Unregister the story
-				local vanilla_name = remove_prefix(option_name, VANILLA_STORY_PREFIX):upper()
-				debug_print("[Config] Removing vanilla story: \"%s\" (%s)", option_name, vanilla_name)
+				local vanilla_name = remove_prefix(story_name, VANILLA_STORY_PREFIX):upper()
+				debug_print("[Config] Removing vanilla story: \"%s\" (%s)", story_name, vanilla_name)
 				GLOBAL.STRINGS.STORYTELLER.WALTER.CAMPFIRE[vanilla_name] = nil
 			end
 		end
@@ -109,12 +110,12 @@ local function RegisterStories(stories)
 	debug_print("[Stories] Adding modded stories to registry")
 	for _, story in ipairs(stories) do
 		-- Load the story and split it into lines
-		debug_print("[Stories] Loading story \"%s\" (%s)", story.name, STORY_DIRECTORY..story.dir)
-		local story_text = GLOBAL.require(STORY_DIRECTORY..story.dir) -- :gsub("([.,:;?!]) ", "%1\n")
+		local story_path = STORY_DIRECTORY..story.dir..story.name:lower()
+		debug_print("[Stories] Loading story \"%s\" (%s)", story.name, story_path)
+		local story_text = GLOBAL.require(story_path) -- :gsub("([.,:;?!]) ", "%1\n")
 		local story_lines = split(story_text, "\n")
 
 		-- Load the story's line durations and text into `story`
-		debug_print("[Stories] Parsing story")
 		local story_formatted = {}
 		for index, line in ipairs(story_lines) do
 			story_formatted[index] = {
@@ -217,7 +218,7 @@ local function StoryTellerPostInit(storyteller)
 end
 
 local function TalkerPostInit(talker)
-	if talker.inst:HasTag("player") then return end
+	if not talker.inst:HasTag("player") then return end
 	
 	print("[Walter++] [Talker] HasTag player")
 	print("[Walter++] [Talker] Prefab: "..tostring(talker.inst.prefab))
