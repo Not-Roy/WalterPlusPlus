@@ -40,8 +40,8 @@ local function config_toggle(options)
 		label = options.label,
 		hover = options.hover ~= nil and options.hover or "",
 		options = {
-			{ description = "Disabled", data = false },
 			{ description = "Enabled", data = true },
+			{ description = "Disabled", data = false },
 		},
 		default = options.default ~= nil and options.default or true,
 	}
