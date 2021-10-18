@@ -57,6 +57,12 @@ configuration_options = {
 		hover = "Replaces every character's voice line for inspecting Big Woby to \"Woby mukbang\"",
 		default = true
 	}),
+	config_toggle({
+		name = "persistent_storytelling",
+		label = "Persistent Storytelling",
+		hover = "When Walter gets cut off in the middle of a story, he remembers where he is and continues the story from where he left off",
+		default = true
+	}),
 
 	config_label({
 		label = "Vanilla Stories",

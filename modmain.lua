@@ -349,8 +349,10 @@ local function script()
 		WobyMukbang()
 	end
 	
-	AddComponentPostInit("storyteller", StoryTellerPostInit)
-	AddComponentPostInit("talker", TalkerPostInit)
+	if GetModConfigData("persistent_storytelling") == true then
+		AddComponentPostInit("storyteller", StoryTellerPostInit)
+		AddComponentPostInit("talker", TalkerPostInit)
+	end
 
 	local wpp_stories = GetStoriesToRegister()
 	RegisterStories(wpp_stories)
