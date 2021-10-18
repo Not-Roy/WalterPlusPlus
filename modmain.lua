@@ -158,7 +158,7 @@ local function StoryTellerPostInit(storyteller)
 							style = "CAMPFIRE",
 							id = self.laststory.id,
 							lines = {
-								{ line="Where was I, again?", duration=3 },
+								{ line="Where was I?", duration=3 },
 								{ line="Oh, I remember", duration=2.5 },
 								GLOBAL.unpack(self.laststory.lines, self.lastline)
 							},
